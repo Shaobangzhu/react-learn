@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>React StartUp</title>
+    <style>
+      .test {
+        background-color: blanchedalmond;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
@@ -11,29 +16,30 @@
     <script src="./library/react-dom.development.js" crossorigin></script>
     <script src="./library/babel.min.js"></script>
     <script type="text/babel">
-      // 按钮组件
-      function MyButton() {
-        return (
-          <button
-            onClick={() => {
-              console.log("button clicked");
-            }}
-          >
-            I'm a button
-          </button>
-        );
+      const welcomeStr = "welcome to my app";
+      const styleObj = {
+        color: "blue",
       }
-
+      const isLogin = false;
+      // 登录子组件
+      function Login() {
+        return (<div>Already Logged In!</div>);
+      }
+      // 非登录子组件
+      function Signout() {
+        return (<div>Signed Out! Please Log In.</div>)
+      }
       // 页面组件
       function MyApp() {
+        const content = isLogin ? <Login /> : <Signout />;
+
         return (
           <div>
-            <h1>welcome to my app</h1>
-            <MyButton />
+            <h1 className="test" style={styleObj}>{welcomeStr ? 'exist' : 'not exist'}</h1>
+            { content }
           </div>
         )
       }
-
       // 获取一个页面根节点
       const rootNode = document.getElementById("root");
       // 创建一个 React 根实例
