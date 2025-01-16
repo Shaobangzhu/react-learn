@@ -9,18 +9,11 @@
     <div id="root"></div>
     <script src="./library/react.development.js" crossorigin></script>
     <script src="./library/react-dom.development.js" crossorigin></script>
-    <script>
+    <script src="./library/babel.min.js"></script>
+    <script type="text/babel">
       // 组件: 组件是页面上的一部分
       function LikeButton() {
-        return React.createElement(
-          "button",
-          {
-            onClick: () => {
-              console.log("button clicked");
-            },
-          },
-          "Click Me"
-        );
+        return (<button onClick={() => { console.log('button clicked')}}>Click Me</button>)
       }
       // 获取一个页面根节点
       const rootNode = document.getElementById("root");
