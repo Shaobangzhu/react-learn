@@ -27,11 +27,12 @@
       // 页面组件
       function MyApp() {
         // 列表项
-        const listItems = products.map(product => {
+        const listItems = products.map((product, index) => {
           return (
             <li 
               key={product.id} 
               style={{color: product.type === 'fruit' ? 'red' : 'green' }}
+              onClick={() => {console.log(index)}}
             >
               {product.title}
             </li>)
