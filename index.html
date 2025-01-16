@@ -16,28 +16,29 @@
     <script src="./library/react-dom.development.js" crossorigin></script>
     <script src="./library/babel.min.js"></script>
     <script type="text/babel">
-      const welcomeStr = "welcome to my app";
-      const styleObj = {
-        color: "blue",
-      }
-      const isLogin = false;
-      // 登录子组件
-      function Login() {
-        return (<div>Already Logged In!</div>);
-      }
-      // 非登录子组件
-      function Signout() {
-        return (<div>Signed Out! Please Log In.</div>)
-      }
+      const products = [{
+        title: 'Cabbage', id: 1, type: 'vegetable'
+      },{
+        title: 'Garlic', id: 2, type: 'vegetable'
+      },{
+        title: 'Apple', id: 3, type: 'fruit'
+      }];
+
       // 页面组件
       function MyApp() {
-        const content = isLogin ? <Login /> : <Signout />;
+        // 列表项
+        const listItems = products.map(product => {
+          return (
+            <li 
+              key={product.id} 
+              style={{color: product.type === 'fruit' ? 'red' : 'green' }}
+            >
+              {product.title}
+            </li>)
+        })
 
         return (
-          <div>
-            <h1 className="test" style={styleObj}>{welcomeStr ? 'exist' : 'not exist'}</h1>
-            { content }
-          </div>
+          <ul>{listItems}</ul>
         )
       }
       // 获取一个页面根节点
