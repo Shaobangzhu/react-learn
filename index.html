@@ -25,14 +25,7 @@
       }];
 
       // 页面组件
-      function MyApp() {
-
-        // const result = useState(0);
-        // const count = result[0];
-        // const setCount = result[1];
-
-        // useState 是一个我们常说的 Hook
-        const [count, setCount] = React.useState(0);
+      function MyProducts({count, setCount}) {
 
         // 列表项
         const listItems = products.map((product, index) => {
@@ -40,7 +33,7 @@
             <li 
               key={product.id} 
               style={{color: product.type === 'fruit' ? 'red' : 'green' }}
-              onClick={ ()=> { setCount(count + 1) } }
+              onClick={ ()=> {setCount(count + 1)} }
             >
               {product.title}
             </li>)
@@ -48,10 +41,27 @@
 
         return (
           <div>
-            <p>{count}</p>
             <ul>{listItems}</ul>
           </div>
         )
+      }
+
+      function MyApp() {
+        // const result = useState(0);
+        // const count = result[0];
+        // const setCount = result[1];
+
+        // useState 是一个我们常说的 Hook
+        const [count, setCount] = React.useState(0);
+
+        // pass data to child component by adding an attribute
+        return (
+          <div>
+            <p>{count}</p>
+            <MyProducts count={count} setCount={setCount} />
+            <MyProducts count={count} setCount={setCount} />
+          </div>
+        );
       }
       // 获取一个页面根节点
       const rootNode = document.getElementById("root");
