@@ -10,7 +10,7 @@ function getNextPlayer(squares) {
   return nextPlayer;
 }
 
-function Board({ squares, winner, setSquares }) {
+function Board({ squares, winner, onChange }) {
   // 下一个即将展现的字母
   const nextPlayer = getNextPlayer(squares);
   
@@ -24,7 +24,7 @@ function Board({ squares, winner, setSquares }) {
     if (currentSquare === null && !winner) {
       const newSquares = squares.slice();
       newSquares[index] = nextPlayer;
-      setSquares(newSquares);
+      onChange(newSquares);
     }
   };
 
