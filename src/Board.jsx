@@ -1,6 +1,6 @@
-import { useState } from "react";
 import Square from "./Square";
 
+// 获取下一个玩家的信息
 function getNextPlayer(squares) {
   const filledSquares = squares.filter(
     (item) => item === "X" || item === "O"
@@ -10,39 +10,10 @@ function getNextPlayer(squares) {
   return nextPlayer;
 }
 
-function calculateWinner(squares) {
-  const winConditions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < winConditions.length; i++) {
-    const winCondition = winConditions[i];
-    const [a, b, c] = winCondition;
-    if(squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  const filledSquares = squares.filter(
-    (item) => item === "X" || item === "O"
-  );
-  if (filledSquares.length === 9) {
-    return "Nobody";
-  }
-  return null;
-}
-
-function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
+function Board({ squares, winner, setSquares }) {
   // 下一个即将展现的字母
   const nextPlayer = getNextPlayer(squares);
-  // 是否已经存在胜利者
-  const winner = calculateWinner(squares);
+  
   // 根据情况展示状态文字
   let status = winner ? `${winner} is winner` : `Next player: ${nextPlayer}`;
 
