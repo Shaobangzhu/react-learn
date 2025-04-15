@@ -1,6 +1,6 @@
-function Bye() {
+function Bye({ msg }) {
     return (
-        <div>Bye React</div>
+        <div>{msg}</div>
     );
 }
 

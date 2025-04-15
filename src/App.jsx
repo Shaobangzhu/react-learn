@@ -2,12 +2,12 @@ import Hello from './Hello';
 import Bye from './Bye';
 
 function App() {
-  const flag = true;
+  const helloMsg = 'Hello React 18';
+  const byeMsg = 'Bye React 18';
   return (
     <>
-      <Hello />
-      <div>{ flag ? 'flag' : 'no flag' }</div>
-      <Bye />
+      <Hello msg={helloMsg} />
+      <Bye msg={byeMsg} />
     </>
   );
 }

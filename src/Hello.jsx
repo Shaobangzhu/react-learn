@@ -1,6 +1,7 @@
-function Hello() {
+function Hello({ msg }) {
+    
     return (
-        <div>Hello React</div>
+        <div>{msg}</div>
     );
 }
 
