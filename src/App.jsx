@@ -1,11 +1,11 @@
-import Child from './Child';
+import { useState } from 'react';
 
 function App() {
-  
+  console.log('excute');
+
+  const [ name, setName ] = useState('CLU');
   return (
-    <div>
-      <Child onAbc={()=>{console.log('abc')}} />
-    </div>
+    <div onClick={() => {name === 'CLU' ? setName('Chaoran Lu') : setName('CLU') }}>{name}</div>
   );
 }
 
