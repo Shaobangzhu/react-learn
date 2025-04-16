@@ -1,14 +1,11 @@
-import Hello from './Hello';
-import Bye from './Bye';
+import Child from './Child';
 
 function App() {
-  const helloMsg = 'Hello React 18';
-  const byeMsg = 'Bye React 18';
+  
   return (
-    <>
-      <Hello msg={helloMsg} />
-      <Bye msg={byeMsg} />
-    </>
+    <div>
+      <Child onAbc={()=>{console.log('abc')}} />
+    </div>
   );
 }
 
