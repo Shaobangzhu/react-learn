@@ -1,17 +1,20 @@
 import { useState } from 'react';
 
+// trigger -> render -> commit
 function App() {
-  const [ userInfo, setUserInfo ] = useState(['clu']);
+  const [ count, setCount ] = useState(0);
+  
+  // const result = useState(0);
+  // const count = result[0];
+  // const setCount = result[1];
 
-  const handleClick = () => {
-    const newUserInfo = { ...userInfo };
-    newUserInfo[0] = 'Chaoran';
-    setUserInfo(newUserInfo);
+  function handleClick() {
+    setCount(count + 1);
   }
 
   return (
-    <div onClick={handleClick}>{userInfo[0]}</div>
-  );
+    <div onClick={handleClick}>{count}</div>
+  )
 }
 
 export default App;
