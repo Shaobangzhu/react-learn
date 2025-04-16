@@ -1,33 +1,20 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-// 1. trigger -> render(virtual dom) -> commit
-// 2. virtual dom: 真实dom的一个js对象的表达
-// 3. 快照态的数据
-// 4. bacthUpdate
+// immutable 编程规范
 
 function App() {
-  const [ count, setCount ] = useState(0);
-  
-  // const result = useState(0);
-  // const count = result[0];
-  // const setCount = result[1];
+  const [data, setCount] = useState({
+    count: 0
+  });
 
   function handleClick() {
-    // setCount(count + 1);
-    // setCount((count) => count + 1);
-    // setCount((count) => count + 1);
-    setCount((count) => count + 1);
+    const newData = {
+      count: data.count + 1
+    }
+    setCount(newData);
   }
 
-  function handleInnerClick() {
-    alert('inner click');
-  }
-
-  return (
-    <div onClick={handleClick}>
-      <p onClick={handleInnerClick}>{count}</p>
-    </div>
-  )
+  return <div onClick={handleClick}>{data.count}</div>;
 }
 
 export default App;
