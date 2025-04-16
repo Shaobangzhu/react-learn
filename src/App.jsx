@@ -1,11 +1,18 @@
 import { useState } from 'react';
 
 function App() {
-  console.log('excute');
+  const [ userInfo, setUserInfo ] = useState({
+    name: 'clu', sex: 'male'
+  });
 
-  const [ name, setName ] = useState('CLU');
+  const handleClick = () => {
+    const newUserInfo = { ...userInfo };
+    newUserInfo.name = 'Chaoran';
+    setUserInfo(newUserInfo);
+  }
+
   return (
-    <div onClick={() => {name === 'CLU' ? setName('Chaoran Lu') : setName('CLU') }}>{name}</div>
+    <div onClick={handleClick}>{userInfo.name}</div>
   );
 }
 
