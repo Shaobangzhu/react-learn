@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import Counter from './Counter';
+import Email from './Email';
 
 function App() {
-  const [ useColor, setUseColor ] = useState(true);
+  const [to, setTo] = useState('clu');
 
   return (
     <div>
-      <Counter />
-      {useColor ? <Counter useColor={useColor}/>: <Counter />}
-      <button onClick={() => setUseColor(!useColor)}>Toggle</button>
+      {
+        (to === 'clu') ? <Email to={to} /> : <div><Email to={to} /></div>
+      }
+      <button onClick={()=>{setTo('extron')}}>toggle</button>
     </div>
   );
 }
