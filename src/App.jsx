@@ -1,46 +1,69 @@
-import { useState } from 'react';
-import Email from './Email';
+import { useState, useReducer } from "react";
+// reducer 使用流程
+// 1. 定义数据
+// 2. 定义 reducer 函数
+// 3. 定义 Action 发送改变数据的指令
+// 4. 拿到 Action 之后, dispatch 派发 Action
+// 5. Reducer中 根据指令修改数据
+// 6. 完成数据的修改
 
-// 列表中 key 值的作用主要是帮助 React 识别哪些元素发生了变化, 哪些被添加或删除了
-// 通过 key 值, React 可以在更新时更高效地重新渲染组件, 提高性能
-// 当 key 值不同时, React 会认为这是两个不同的元素, 即使它们的内容相同
-// 这会导致 React 在重新渲染时, 删除旧的元素并创建新的元素, 而不是更新现有的元素
-// 这可能会导致性能下降, 尤其是在列表较大时
-// 通过使用 key 值, React 可以更智能地处理元素的更新, 只更新必要的部分
-// 这就是为什么在列表中使用 key 值是一个好的实践的原因
+function listReducer(state, action) {
+  if (action.type === "add") {
+    const newState = [
+      ...state,
+      {
+        id: action.value,
+        value: action.value,
+      },
+    ];
+    return newState;
+  }
+  if (action.type === "delete") {
+    const newState = [...state];
+    newState.splice(action.value, 1);
+    return newState;
+  }
+  return state;
+}
 
 function App() {
-  const [to, setTo] = useState('clu');
-  const [list, setList] = useState([
-    {
-      uuid: '1231',
-      value: 1
-    },
-    {
-      uuid: '1232',
-      value: 2
-    },
-    {
-      uuid: '1233',
-      value: 3
-    },
-    {
-      uuid: '1234',
-      value: 4
-    },
-    {
-      uuid: '1235',
-      value: 5
-    }
-  ]);
+  const [inputValue, setInputValue] = useState("");
+  const [list, dispatch] = useReducer(listReducer, []);
+
+  function handleInputChange(e) {
+    setInputValue(e.target.value);
+  }
+
+  function handleButtonClick() {
+    const action = {
+      type: "add",
+      value: inputValue,
+    };
+    dispatch(action);
+    setInputValue("");
+  }
+
+  function handleItemClick(index) {
+    const action = {
+      type: "delete",
+      value: index,
+    };
+    dispatch(action);
+  }
 
   return (
     <div>
-      <Email to={to} key={to} />
-      <button onClick={()=>{setTo('extron')}}>toggle</button>
-      {
-        list.map(item => <p key={item.uuid}>{item.value}</p>)
-      }
+      <div>
+        <input value={inputValue} onChange={handleInputChange} />
+        <button onClick={handleButtonClick}>Submit</button>
+      </div>
+      <ul>
+        {list.map((item, index) => (
+          <li key={item.id} onClick={() => handleItemClick(index)}>
+            {item.value}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
