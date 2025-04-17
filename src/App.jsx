@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import Counter from './Counter';
 
 function App() {
+  const [ useColor, setUseColor ] = useState(true);
 
   return (
     <div>
       <Counter />
-      <Counter />
+      {useColor ? <Counter useColor={useColor}/>: <Counter />}
+      <button onClick={() => setUseColor(!useColor)}>Toggle</button>
     </div>
   );
 }
