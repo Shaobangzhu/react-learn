@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const nameContext = createContext('');
+const nameContext = createContext('Guest');
 
 export default nameContext;
