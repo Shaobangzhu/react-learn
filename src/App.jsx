@@ -1,10 +1,38 @@
-import Header from "./Header";
+import { useImmerReducer } from "use-immer";
+import AddItem from "./AddItem";
+import ItemList from "./ItemList";
+import DataContext from "./DataContext";
+import DispatchContext from "./DispatchContext";
+
+function dataReducer(draft, action) {
+  if (action.type === 'changeInput') {
+    draft.inputValue = action.value;
+  }
+  if(action.type === 'addItem') {
+    draft.list.push({
+      key: draft.inputValue,
+      value: draft.inputValue
+    });
+    draft.inputValue = '';
+  }
+  return draft;
+}
 
 function App() {
+  const [data, dispatch] = useImmerReducer(dataReducer, {
+    inputValue: "",
+    list: [],
+  });
+
   return (
-    <Header>
-      <div>this is extra info</div>
-    </Header>
+    <>
+      <DataContext.Provider value={data}>
+        <DispatchContext.Provider value={dispatch}>
+          <AddItem />
+          <ItemList />
+        </DispatchContext.Provider>
+      </DataContext.Provider>
+    </>
   );
 }
 
