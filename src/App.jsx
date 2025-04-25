@@ -1,38 +1,30 @@
-import { useImmerReducer } from "use-immer";
-import AddItem from "./AddItem";
-import ItemList from "./ItemList";
-import DataContext from "./DataContext";
-import DispatchContext from "./DispatchContext";
-
-function dataReducer(draft, action) {
-  if (action.type === 'changeInput') {
-    draft.inputValue = action.value;
-  }
-  if(action.type === 'addItem') {
-    draft.list.push({
-      key: draft.inputValue,
-      value: draft.inputValue
-    });
-    draft.inputValue = '';
-  }
-  return draft;
-}
+import { useRef, useState } from 'react';
 
 function App() {
-  const [data, dispatch] = useImmerReducer(dataReducer, {
-    inputValue: "",
-    list: [],
-  });
+  // 1. timer: {current: null}
+  // 2. timer: {current: timer 引用}
+  // 3. timer: {current: null}
+  // Ref 用来保存 React 组件中不需要驱动页面变更的数据
+  
+  const [ time, setTime ] = useState((new Date()).getTime());
+  const timer = useRef(null);
+
+  function handleStartBtnClick() {
+    timer.current = setInterval(() => {
+      setTime((new Date()).getTime());
+    }, 1000);
+  }
+
+  function handleStopBtnClick() {
+    clearInterval(timer.current);
+  }
 
   return (
-    <>
-      <DataContext.Provider value={data}>
-        <DispatchContext.Provider value={dispatch}>
-          <AddItem />
-          <ItemList />
-        </DispatchContext.Provider>
-      </DataContext.Provider>
-    </>
+    <div>
+      <button onClick={handleStartBtnClick}>Start</button>
+      <button onClick={handleStopBtnClick}>Stop</button>
+      <div>{time}</div>
+    </div>
   );
 }
 
