@@ -17,14 +17,23 @@ function App() {
   // }, []);
 
   // 全局事件绑定在严格开发模式下, 需要进行清理
-  useEffect(() => {
-    function onScroll() {
-      console.log('scroll');
-    }
-    window.addEventListener('scroll', onScroll);
+  // useEffect(() => {
+  //   function onScroll() {
+  //     console.log('scroll');
+  //   }
+  //   window.addEventListener('scroll', onScroll);
 
+  //   return () => {
+  //     window.removeEventListener('scroll', onScroll);
+  //   }
+  // }, []);
+
+  // DOM 操作在严格模式下, 需要进行清理
+  useEffect(() => {
+    const originBackground = window.document.body.style.background;
+    window.document.body.style.background = 'red';
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.document.body.style.background = originBackground;
     }
   }, []);
 
