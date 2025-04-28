@@ -6,17 +6,29 @@ function App() {
   const [time, setTime] = useState(new Date().getTime());
   
   // timer 在严格开发模式下, 需要进行清理
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     console.log(123);
+  //     setTime((new Date()).getTime());
+  //   }, 1000);
+  //   return () => {
+  //     clearInterval(timer);
+  //   }
+  // }, []);
+
+  // 全局事件绑定在严格开发模式下, 需要进行清理
   useEffect(() => {
-    const timer = setInterval(() => {
-      console.log(123);
-      setTime((new Date()).getTime());
-    }, 1000);
+    function onScroll() {
+      console.log('scroll');
+    }
+    window.addEventListener('scroll', onScroll);
+
     return () => {
-      clearInterval(timer);
+      window.removeEventListener('scroll', onScroll);
     }
   }, []);
 
-  return <div>{time}</div>;
+  return <div style={{height: '5000px'}}>{time}</div>;
 }
 
 export default App;
