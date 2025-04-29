@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// 如果一个数据内容是来自于外部系统的, 使用 useSyncExternalState 来实现
 function App() {
   const [isOnline, setIsOnline] = useState(true);
 
@@ -10,6 +11,10 @@ function App() {
   useEffect(() => {
     window.addEventListener("online", updateState);
     window.addEventListener("offline", updateState);
+    return () => {
+      window.removeEventListener("online", updateState);
+      window.removeEventListener("offline", updateState);
+    };
   }, []);
 
   return <div>{isOnline.toString()}</div>;
