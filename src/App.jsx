@@ -1,21 +1,17 @@
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
 // 如果一个数据内容是来自于外部系统的, 使用 useSyncExternalState 来实现
+function subscribe(callback) {
+  window.addEventListener("online", callback);
+  window.addEventListener("offline", callback);
+  return () => {
+    window.removeEventListener("online", callback);
+    window.removeEventListener("offline", callback);
+  };
+}
+
 function App() {
-  const [isOnline, setIsOnline] = useState(true);
-
-  function updateState() {
-    setIsOnline(window.navigator.onLine);
-  }
-
-  useEffect(() => {
-    window.addEventListener("online", updateState);
-    window.addEventListener("offline", updateState);
-    return () => {
-      window.removeEventListener("online", updateState);
-      window.removeEventListener("offline", updateState);
-    };
-  }, []);
+  const isOnline = useSyncExternalStore(subscribe, () => window.navigator.onLine);
 
   return <div>{isOnline.toString()}</div>;
 }
