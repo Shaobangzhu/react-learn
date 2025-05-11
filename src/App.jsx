@@ -1,25 +1,35 @@
-// useEffectEvent
-import { useState, useEffect, useEffectEvent } from "react";
+import { useState, useEffect } from "react";
+
+// 自定义 Hook
+// 1. 复用性会提升
+// 2. 把分散的逻辑聚集到一起, 代码可读性更好
+// 3. Hook 共享的是执行逻辑, 多次执行同一个 Hook, 每次执行对应的状态不是被共享的
+
+function useUserInfo() {
+  const [ userInfo, setUserInfo ] = useState({});
+  useEffect(() => {
+    setUserInfo({ name: "clu", job: "software engineer" });
+  }, []);
+  function changeUserInfo() {
+    setUserInfo({ name: "CLU", job: "QA engineer" });
+  }
+  return [ userInfo, changeUserInfo ];
+}
 
 function App() {
-
-  const [url, setUrl] = useState('http://localhost:3000')
-  const [param, setParam] = useState('?name=clu')
-
-  const request = useEffectEvent((url) => {
-    console.log(`发送请求, 地址是${url}${param}`)
-  }) 
-
-  useEffect(() => {
-    request(url)
-  }, [url])
+  const [ userInfo, changeUserInfo ] = useUserInfo();
+  const [ userInfoOne, changeUserInfoOne ] = useUserInfo();
 
   return (
     <>
-      <div onClick={()=>{setUrl('http://localhost:3001')}}>Change Url</div>
-      <div onClick={()=>{setParam('?name=CLU')}}>Change Param</div>
+      <div onClick={changeUserInfo}>
+        {userInfo.name}
+      </div>
+      <div onClick={changeUserInfoOne}>
+        {userInfoOne.name}
+      </div>
     </>
-  )
+  );
 }
 
 export default App;
