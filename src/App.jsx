@@ -1,34 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from 'react'
 
-// 自定义 Hook
-// 1. 复用性会提升
-// 2. 把分散的逻辑聚集到一起, 代码可读性更好
-// 3. Hook 共享的是执行逻辑, 多次执行同一个 Hook, 每次执行对应的状态不是被共享的
-
-function useUserInfo() {
-  const [ userInfo, setUserInfo ] = useState({});
-  useEffect(() => {
-    setUserInfo({ name: "clu", job: "software engineer" });
-  }, []);
-  function changeUserInfo() {
-    setUserInfo({ name: "CLU", job: "QA engineer" });
-  }
-  return [ userInfo, changeUserInfo ];
-}
+// useCallBack 是React提供的一个Hook, 用来缓存函数的引用, 避免因为组件的重新渲染导致函数被重新创建。
+// 注: 1. 如果不传入依赖数组, useCallback不会起作用 2. 滥用useCallback会增加代码复杂度,
+// 只有在函数频繁作为props传递并影响性能时才考虑使用
 
 function App() {
-  const [ userInfo, changeUserInfo ] = useUserInfo();
-  const [ userInfoOne, changeUserInfoOne ] = useUserInfo();
+  const [content, setContent] = useState('default');
+
+  const handleContentChange = useCallback((e) => {
+    setContent(e.target.value)
+  }, [])
 
   return (
-    <>
-      <div onClick={changeUserInfo}>
-        {userInfo.name}
-      </div>
-      <div onClick={changeUserInfoOne}>
-        {userInfoOne.name}
-      </div>
-    </>
+    <input value={content ? content: ''} onChange={handleContentChange} />
   );
 }
 
