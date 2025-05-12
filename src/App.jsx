@@ -1,7 +1,12 @@
-function App() {
+import React, { Suspense } from 'react';
 
+const Todos = React.lazy(() => import('./Todos'));
+
+function App() {
   return (
-    <div>Hello React</div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Todos />
+    </Suspense>
   );
 }
 
