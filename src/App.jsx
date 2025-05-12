@@ -1,18 +1,34 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useDebugValue } from "react";
 
-// useCallBack 是React提供的一个Hook, 用来缓存函数的引用, 避免因为组件的重新渲染导致函数被重新创建。
-// 注: 1. 如果不传入依赖数组, useCallback不会起作用 2. 滥用useCallback会增加代码复杂度,
-// 只有在函数频繁作为props传递并影响性能时才考虑使用
+function useContent() {
+  useDebugValue("more content info");
+  const [content, setContent] = useState("");
+  const handleContentChange = useCallback((e) => {
+    setContent(e.target.value);
+  }, []);
+  return [content, handleContentChange];
+}
+
+function useName() {
+  useDebugValue("more name info");
+  const [name, setName] = useState("");
+  const handleNameChange = useCallback((e) => {
+    setName(e.target.value);
+  }, []);
+  return [name, handleNameChange];
+}
 
 function App() {
-  const [content, setContent] = useState('default');
-
-  const handleContentChange = useCallback((e) => {
-    setContent(e.target.value)
-  }, [])
+  const [content, handleContentChange] = useContent();
+  const [name, handleNameChange] = useName();
 
   return (
-    <input value={content ? content: ''} onChange={handleContentChange} />
+    <>
+      <input value={content ? content : ""} onChange={handleContentChange} />
+      <br/>
+      <br/>
+      <input value={name ? name : ""} onChange={handleNameChange} />
+    </>
   );
 }
 
