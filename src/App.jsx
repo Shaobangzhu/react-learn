@@ -1,34 +1,31 @@
-import { useState, useCallback, useDebugValue } from "react";
+import { useState, useRef, forwardRef, useEffect, useImperativeHandle } from "react";
 
-function useContent() {
-  useDebugValue("more content info");
-  const [content, setContent] = useState("");
-  const handleContentChange = useCallback((e) => {
-    setContent(e.target.value);
-  }, []);
-  return [content, handleContentChange];
-}
+const UserInput = forwardRef((props, ref) => {
+  const inputRef = useRef(null);
 
-function useName() {
-  useDebugValue("more name info");
-  const [name, setName] = useState("");
-  const handleNameChange = useCallback((e) => {
-    setName(e.target.value);
-  }, []);
-  return [name, handleNameChange];
-}
+  // 父组件调用子组件的  DOM 时, 能够对DOM节点上的返回内容中转做一层限制
+  useImperativeHandle(ref, () => {
+    return {
+      blur() {
+        inputRef.current.blur();
+      },
+      value: inputRef.current.value
+    }
+  }, [])
+
+  const[ value, setValue ] = useState('clu');
+  return <input ref={inputRef} value={value || ''} onChange={(e)=>{setValue(e.target.value)}} />
+});
 
 function App() {
-  const [content, handleContentChange] = useContent();
-  const [name, handleNameChange] = useName();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    console.log(ref.current.value)
+  }, [])
 
   return (
-    <>
-      <input value={content ? content : ""} onChange={handleContentChange} />
-      <br/>
-      <br/>
-      <input value={name ? name : ""} onChange={handleNameChange} />
-    </>
+    <UserInput ref={ref} />
   );
 }
 
