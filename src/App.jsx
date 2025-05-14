@@ -1,35 +1,32 @@
-import { useState, useTransition, memo } from "react";
+import { useState, memo } from 'react';
 
-const Todos = memo(({ text }) => {
-  const items = [];
-  for (let i = 0; i < 100; i++) {
-    items.push(<div key={i}>{text}</div>);
+// 组件所依赖的 props 没有发生变化, 那么这个组件就不进行重新渲染, 使用缓存
+const Child = memo(({ name, address }) => {
+  console.log('Child render');
+  return <div>{name} <br/><br/> {address}</div>;
+}, (originProps, props) => {
+  // 如果 address 发生变化, 不用缓存
+  if(originProps.address !== props.address) {
+    return false;
   }
-  const startTime = new Date().getTime();
-  while (new Date().getTime() - startTime < 200) {}
-  return <div>{items}</div>;
+  // 否则, 使用缓存
+  return true;
 });
 
 function App() {
-  const [ inputValue, setInputValue ] = useState('');
-  const [ deferredInputValue, setDeferredInputValue ] = useState('');
-
-  const [ isPending, startTransition ] = useTransition();
-
-  function handleOnChange(e) {
-    setInputValue(e.target.value)
-    startTransition(() => {
-      setDeferredInputValue(e.target.value);
-    })
-  }
+  const [ name, setName ] = useState('');
+  const [ address, setAddress ] = useState('');
 
   return (
     <>
-      <input
-        value={inputValue || ""}
-        onChange={handleOnChange}
-      />
-      { isPending ? <div>Loading...</div> : <Todos text={deferredInputValue} />}
+      <div>
+        NAME: <input value={name || ''} onChange={(e) => {setName(e.target.value)}} />
+      </div>
+      <br />
+      <div>
+        ADDRESS: <input value={address || ''} onChange={(e) => {setAddress(e.target.value)}} />
+      </div>
+      <Child name={name} address={address}></Child>
     </>
   );
 }
