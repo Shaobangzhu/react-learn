@@ -47,7 +47,3 @@ http://localhost:5173/
 ```
 
 ---
-
-# 📚 10 React Exercises (with reasons & sample code)
-
-### (Content omitted for brevity in this downloadable file—use your previous answer for full code samples.)
